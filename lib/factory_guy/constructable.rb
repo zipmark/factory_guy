@@ -37,5 +37,11 @@ module FactoryGuy
     def create!
       build.tap(&:save!)
     end
+
+    def create_list(n, options = {})
+      resource.create(
+        n.times.map { attributes.merge(options) }
+      )
+    end
   end
 end
