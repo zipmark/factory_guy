@@ -1,32 +1,41 @@
 module FactoryGuy
+  ImplementationError = Class.new(StandardError)
+
   module Constructable
     ## DSL ##
-    #extend FactoryGuy::Constructable
+    # class SomeFactory
+    #   extend FactoryGuy::Constructable
 
-    # Only need to define #default_attributes
+    # Need to define #default_attributes
     # def default_attributes ; end
 
     def self.extended(mod)
-      binding.pry
-      # get the resource name from the factory class
-      # so we know what class to call .build, etc. on
+      mod.class_eval do
+        cattr_accessor :resource
+
+        resource_name = mod.to_s.split(/Factory/)[0]
+        self.resource = const_get(resource_name)
+      end
     end
 
-    def attribute(name, value)
-      attributes[name] = value
+    def attributes
+      begin
+        default_attributes
+      rescue NameError
+        raise(ImplementationError, "Your factory must implement class-level `#{self}.default_attributes`.")
+      end
     end
 
     def build
-      binding.pry
-      resource.build(attributes)
+      resource.new(attributes)
     end
 
     def create
-      resource.create(attributes)
+      build.tap(&:save)
     end
 
     def create!
-      resource.create! attributes
+      build.tap(&:save!)
     end
   end
 end

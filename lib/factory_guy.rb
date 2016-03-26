@@ -1,4 +1,6 @@
 require "factory_guy/version"
+require "factory_guy/constructable"
+require "factory_guy/railtie"
 
 module FactoryGuy
   class << self
@@ -32,8 +34,4 @@ module FactoryGuy
       @sequencer ||= {}
     end
   end
-end
-
-if defined? Rails
-  Dir[Rails.root.join("spec/factories/**/*_factory.rb")].each { |f| require f }
 end
