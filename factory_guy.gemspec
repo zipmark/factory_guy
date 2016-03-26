@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["matt@zipmark.com"]
 
   spec.summary       = %q{Like Factory Girl, but lighter and smaller.}
-  spec.description   = %q{Don't think too much about it. Just use it if you were thinking of using Fatory Girl.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.description   = %q{Don't think too much about it. Just use it if you were thinking of using Fatory Girl in a Rails project.}
+  spec.homepage      = "https://github.com/zipmark/factory_guy"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
