@@ -26,8 +26,9 @@ module FactoryGuy
       end
     end
 
-    def build
-      resource.new(attributes)
+    def build(options = {})
+      build_options = attributes.merge(options)
+      resource.new(build_options)
     end
 
     def create

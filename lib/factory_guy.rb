@@ -1,6 +1,6 @@
 require "factory_guy/version"
 require "factory_guy/constructable"
-require "factory_guy/railtie"
+require "factory_guy/railtie" if defined? Rails
 
 module FactoryGuy
   class << self
