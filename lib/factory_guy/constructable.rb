@@ -31,12 +31,12 @@ module FactoryGuy
       resource.new(build_options)
     end
 
-    def create
-      build.tap(&:save)
+    def create(options = {})
+      build(options).tap(&:save)
     end
 
-    def create!
-      build.tap(&:save!)
+    def create!(options = {})
+      build(options).tap(&:save!)
     end
 
     def create_list(n, options = {})

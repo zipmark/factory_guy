@@ -1,8 +1,16 @@
 require 'spec_helper'
 
-class Shoe < Struct.new(:foo)
+class Shoe < Struct.new(:foo, :persisted)
   def initialize(options = {})
     super(options[:foo])
+  end
+
+  def save
+    self.persisted = true
+  end
+
+  def persisted?
+    !!persisted
   end
 end
 
@@ -30,6 +38,23 @@ class ShoeFactory
 end
 
 RSpec.describe FactoryGuy::Constructable do
+  describe "#create" do
+    subject { ShoeFactory.create }
+
+    it "persists the record" do
+      expect(subject.persisted?).to eq true
+    end
+
+    context "when options are passed" do
+      let(:options) { { foo: "baz" } }
+      subject       { ShoeFactory.create(options) }
+
+      it "overwrites the default attributes" do
+        expect(subject.foo).to eq options[:foo]
+      end
+    end
+  end
+
   describe "#build" do
     subject { ShoeFactory.build }
 
@@ -55,7 +80,6 @@ RSpec.describe FactoryGuy::Constructable do
     context "when no options are passed" do
       it "initializes a new instance with the resource's default attributes" do
         expect(subject.foo).to eq ShoeFactory.default_attributes[:foo]
-
       end
     end
   end
